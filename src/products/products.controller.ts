@@ -1,12 +1,20 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 
 @Controller('products')
 export class ProductsController {
   constructor() {}
 
   @Post()
-  createProduct() {
-    return 'This action adds a new product';
+  createProduct(@Body() createProductDto: any) {
+    return `This action adds a new product with ${JSON.stringify(createProductDto)}`;
   }
 
   @Get()
@@ -15,17 +23,17 @@ export class ProductsController {
   }
 
   @Get(':id')
-  findOneProduct() {
-    return 'This action returns a product';
+  findOneProduct(@Param('id') id: string) {
+    return `This action returns a product with id: ${id}`;
   }
 
   @Patch(':id')
-  updateProduct() {
-    return 'This action updates a product';
+  updateProduct(@Param('id') id: string, @Body() updateProductDto: any) {
+    return `This action updates a product with id: ${id} with ${JSON.stringify(updateProductDto)}`;
   }
 
   @Delete(':id')
-  deleteProduct() {
-    return 'This action removes a product';
+  deleteProduct(@Param('id') id: string) {
+    return `This action removes a product with id: ${id}`;
   }
 }
