@@ -7,8 +7,10 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { PaginationDto } from 'src/common/dto';
 import { PRODUCT_SERVICE } from 'src/config';
 
 @Controller('products')
@@ -23,8 +25,11 @@ export class ProductsController {
   }
 
   @Get()
-  findAllProducts() {
-    const products = this.productsClient.send({ cmd: 'find_all_products' }, {});
+  findAllProducts(@Query() paginationDto: PaginationDto) {
+    const products = this.productsClient.send(
+      { cmd: 'find_all_products' },
+      paginationDto,
+    );
 
     return products;
   }
