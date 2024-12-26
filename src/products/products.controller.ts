@@ -14,6 +14,7 @@ import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { catchError } from 'rxjs';
 import { PaginationDto } from 'src/common';
 import { PRODUCT_SERVICE } from 'src/config';
+import { CreateProductDto } from './dto/create-product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -22,8 +23,19 @@ export class ProductsController {
   ) {}
 
   @Post()
-  createProduct(@Body() createProductDto: any) {
-    return `This action adds a new product with ${JSON.stringify(createProductDto)}`;
+  createProduct(@Body() createProductDto: CreateProductDto) {
+    return this.productsClient
+      .send(
+        {
+          cmd: 'create_product',
+        },
+        { ...createProductDto },
+      )
+      .pipe(
+        catchError((error) => {
+          throw new RpcException(error);
+        }),
+      );
   }
 
   @Get()
