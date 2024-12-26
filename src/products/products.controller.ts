@@ -60,7 +60,11 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  deleteProduct(@Param('id') id: string) {
-    return `This action removes a product with id: ${id}`;
+  deleteProduct(@Param('id', ParseIntPipe) id: number) {
+    return this.productsClient.send({ cmd: 'delete_product' }, { id }).pipe(
+      catchError((error) => {
+        throw new RpcException(error);
+      }),
+    );
   }
 }
