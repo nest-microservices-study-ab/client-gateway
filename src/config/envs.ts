@@ -13,6 +13,8 @@ const envVarsSchema = joi
     PORT: joi.number().required(),
     PRODUCTS_MICROSERVICES_HOST: joi.string().required(),
     PRODUCTS_MICROSERVICES_PORT: joi.number().required(),
+    ORDERS_MICROSERVICES_PORT: joi.number().required(),
+    ORDERS_MICROSERVICES_HOST: joi.string().required(),
   })
   .unknown(true);
 
