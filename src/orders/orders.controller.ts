@@ -18,12 +18,12 @@ import {
   OrderPaginationDto,
 } from './dto';
 
-import { ORDER_SERVICE } from 'src/config';
+import { NATS_SERVICE } from 'src/config';
 
 @Controller('orders')
 export class OrdersController {
   constructor(
-    @Inject(ORDER_SERVICE) private readonly ordersClient: ClientProxy,
+    @Inject(NATS_SERVICE) private readonly ordersClient: ClientProxy,
   ) {}
 
   @Post()
