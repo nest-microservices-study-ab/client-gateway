@@ -31,3 +31,11 @@ This repository contains the code for Client-Gateway service. This service is re
 1. Create a `.env` file in the root directory using `.env.template` file as a reference.
 2. Run `pnpm install` to install the dependencies.
 3. Run `pnpm start:dev` to start the server in development mode.
+
+## Run Nats Server
+
+1. Use docker to run the nats server.
+
+```bash
+docker run -d --name nats-server -p 4222:4222 -p 8222:8222 nats
+```
