@@ -22,15 +22,13 @@ import { NATS_SERVICE } from 'src/config';
 
 @Controller('orders')
 export class OrdersController {
-  constructor(
-    @Inject(NATS_SERVICE) private readonly ordersClient: ClientProxy,
-  ) {}
+  constructor(@Inject(NATS_SERVICE) private readonly client: ClientProxy) {}
 
   @Post()
   async create(@Body() createOrderDto: CreateOrderDto) {
     try {
       const order = await firstValueFrom(
-        this.ordersClient.send(
+        this.client.send(
           {
             cmd: 'create_order',
           },
@@ -45,17 +43,14 @@ export class OrdersController {
 
   @Get()
   findAll(@Query() orderPaginationDto: OrderPaginationDto) {
-    return this.ordersClient.send(
-      { cmd: 'find_all_orders' },
-      orderPaginationDto,
-    );
+    return this.client.send({ cmd: 'find_all_orders' }, orderPaginationDto);
   }
 
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     try {
       const order = await firstValueFrom(
-        this.ordersClient.send({ cmd: 'find_one_order' }, { id }),
+        this.client.send({ cmd: 'find_one_order' }, { id }),
       );
       return order;
     } catch (error) {
@@ -70,7 +65,7 @@ export class OrdersController {
   ) {
     try {
       const updatedOrder = await firstValueFrom(
-        this.ordersClient.send(
+        this.client.send(
           { cmd: 'change_order_status' },
           { id, ...changeOrderStatusDto },
         ),
